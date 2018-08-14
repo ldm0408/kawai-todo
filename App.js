@@ -32,7 +32,7 @@ export default class App extends React.Component {
                      returnKeyType = {"done"} 
                      autoCorrect = {false}/>
         <ScrollView contentContainerStyle = {styles.toDos}>
-          <ToDo/>
+          <ToDo text = {"오늘 할일 이다"}/>
         </ScrollView>
         </View>
       </View>
