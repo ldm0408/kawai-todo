@@ -47,7 +47,16 @@ export default class App extends React.Component {
             onSubmitEditing={this._addTodo}
           />
           <ScrollView contentContainerStyle={styles.toDos}>
-            <ToDo text={"오늘 할일 이다할일 이다"} />
+            {Object.values(toDos).map(todo => (
+              <ToDo
+                key={todo.id}
+                deleteTodo={this._deleteTodo}
+                completdTodo={this._completdTodo}
+                unCompletedTodo={this._unCompletedTodo}
+                updateTodo={this._updateTodo}
+                {...todo}
+              />
+            ))}
           </ScrollView>
         </View>
       </View>
@@ -90,6 +99,63 @@ export default class App extends React.Component {
         return { ...newState };
       });
     }
+  };
+
+  _deleteTodo = id => {
+    this.setState(prevState => {
+      const toDos = this.state.toDos;
+      delete toDos[id];
+      const newState = {
+        ...prevState,
+        ...toDos
+      };
+      return { ...newState };
+    });
+  };
+
+  _unCompletedTodo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: false
+          }
+        }
+      };
+      return { ...newState };
+    });
+  };
+
+  _completdTodo = id => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: {
+            ...prevState.toDos[id],
+            isCompleted: true
+          }
+        }
+      };
+      return { ...newState };
+    });
+  };
+
+  _updateTodo = (id, text) => {
+    this.setState(prevState => {
+      const newState = {
+        ...prevState,
+        toDos: {
+          ...prevState.toDos,
+          [id]: { ...prevState.toDos[id], text: text }
+        }
+      };
+      return { ...newState };
+    });
   };
 }
 
